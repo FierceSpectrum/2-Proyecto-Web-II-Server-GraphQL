@@ -65,7 +65,7 @@ const videoResolvers = {
 const QueryVideo = `getAllVideos: [Video!]!
 getVideo(id: ID!): Video
 getVideoInPlaylist(id: ID!, idplaylist: ID!): Video
-getAllVideosInPlaylist(idplaylist: ID!): Video`;
+getAllVideosInPlaylist(idplaylist: ID!): [Video!]!`;
 
 module.exports = {
   videoResolvers,

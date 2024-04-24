@@ -17,7 +17,7 @@ const userResolvers = {
       const users = await User.find({ state: true });
       return users;
     } catch (error) {
-      throw new Error("Internal server error");
+      return {Error: error};
     }
   }
 };

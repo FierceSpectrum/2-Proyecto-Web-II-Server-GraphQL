@@ -1,3 +1,4 @@
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 // Configurar el servidor Express
@@ -69,46 +70,46 @@ app.use(
 );
 
 // JWT Authentication middleware
-// app.use(function (req, res, next) {
-//   if (req.headers["authorization"]) {
-//     const authToken = req.headers["authorization"].split(" ")[1];
-//     try {
-//       jwt.verify(authToken, theSecretKey, (err, decodedToken) => {
-//         if (err || !decodedToken) {
-//           res.status(401);
-//           res.send({
-//             error: "Unauthorized",
-//           });
-//           return;
-//         }
+app.use(function (req, res, next) {
+  if (req.headers["authorization"]) {
+    const authToken = req.headers["authorization"].split(" ")[1];
+    try {
+      jwt.verify(authToken, theSecretKey, (err, decodedToken) => {
+        if (err || !decodedToken) {
+          res.status(401);
+          res.send({
+            error: "Unauthorized n",
+          });
+          return;
+        }
 
-//         const currentDate = new Date();
-//         const expirationDate = new Date(decodedToken.expiration);
+        const currentDate = new Date();
+        const expirationDate = new Date(decodedToken.expiration);
 
-//         if (currentDate.getTime() > expirationDate.getTime()) {
-//           res.status(401);
-//           res.send({
-//             error: "Unauthorized",
-//           });
-//           return;
-//         }
-//         next();
-//       });
-//     } catch (e) {
-//       console.error("There was an error", e);
-//       res
-//         .send({
-//           error: "Unauthorized ",
-//         })
-//         .status(401);
-//     }
-//   } else {
-//     res.status(401);
-//     res.send({
-//       error: "Unauthorized ",
-//     });
-//   }
-// });
+        if (currentDate.getTime() > expirationDate.getTime()) {
+          res.status(401);
+          res.send({
+            error: "Unauthorized m",
+          });
+          return;
+        }
+        next();
+      });
+    } catch (e) {
+      console.error("There was an error", e);
+      res
+        .send({
+          error: "Unauthorized b",
+        })
+        .status(401);
+    }
+  } else {
+    res.status(401);
+    res.send({
+      error: "Unauthorized d",
+    });
+  }
+});
 
 // Crear y utilizar el middleware GraphQL
 app.use(
@@ -121,4 +122,4 @@ app.use(
 );
 
 // Iniciar el servidor
-app.listen(3006, () => console.log(`Example app listening on port 3002!`));
+app.listen(3006, () => console.log(`Example app listening on port 3006!`));

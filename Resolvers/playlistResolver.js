@@ -8,6 +8,9 @@ const playlistResolvers = {
       if (!playlist.state) {
         throw new Error("User not found");
       }
+      let playlistvideos = playlist.playlist.map((video) => {
+        video.id = video._id;
+      });
       return playlist;
     } catch (error) {
       throw new Error("Internal server error");
@@ -15,8 +18,13 @@ const playlistResolvers = {
   },
   getAllPlaylists: async () => {
     try {
-      const playlist = await Playlist.find({ state: true });
-      return playlist;
+      const playlists = await Playlist.find({ state: true });
+      let playlistvideos = playlists.map((playlist) => {
+        playlist.playlist.map((video) => {
+          video.id = video._id;
+        });
+      });
+      return playlists;
     } catch (error) {
       throw new Error("Internal server error");
     }
@@ -34,12 +42,17 @@ const playlistResolvers = {
         throw new Error("Playlist not found");
       }
 
-      if (playlist.user !== iduser) {
+      if (playlist.user != iduser) {
         throw new Error("User's playlist not found");
       }
+
+      let playlistvideos = playlist.playlist.map((video) => {
+        video.id = video._id;
+      });
+
       return playlist;
     } catch (error) {
-      throw new Error("Internal server error");
+      throw new Error(error);
     }
   },
   getAllPlaylistsUser: async ({ iduser }) => {
@@ -51,16 +64,21 @@ const playlistResolvers = {
 
       // Obtener las listas de reproducción del usuario
       const playlists = await Playlist.find({ user: iduser, state: true });
+      let playlistvideo = playlists.map((playlist) => {
+        playlist.playlist.map((video) => {
+          video.id = video._id;
+        });
+      });
       return playlists;
     } catch (error) {
-      throw new Error("Internal server error");
+      throw new Error(error);
     }
   },
 };
 const QueryPlaylist = `getAllPlaylists: [Playlist!]!
 getPlaylist(id: ID!): Playlist
 getPlaylistUser(id: ID!, iduser: ID!): Playlist
-getAllPlaylistsUser(iduser: ID!): Playlist`;
+getAllPlaylistsUser(iduser: ID!): [Playlist!]!`;
 
 module.exports = {
   playlistResolvers,
